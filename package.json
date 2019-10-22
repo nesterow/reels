@@ -1,0 +1,24 @@
+{
+  "name": "reel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel index.html --port 4444 assets/**/*",
+    "build": "parcel build src/index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "typescript": "^3.6.4"
+  },
+  "dependencies": {
+    "jss": "^10.0.0",
+    "jss-plugin-compose": "^10.0.0",
+    "jss-preset-default": "^10.0.0",
+    "preact": "^10.0.1",
+    "redux": "^4.0.4"
+  }
+}
