@@ -5,44 +5,49 @@ jss.setup(jssPreset())
 import * as PReact from 'preact';
 const h = PReact.createElement
 
-import getAssets from './Mocks/getAssets'
 import Store from './Store'
 import Context from './Store/context'
 import { useState } from 'preact/hooks'
-
-import {Actions as GlobalActions} from './Store/global'
-import {Actions as SlotActions} from './Store/slot'
 
 import Wallet from './Wallet'
 import Slot from './Slot'
 import Paytable from './Paytable'
 import stylesheet from './Styles/App.style'
 
+import {Actions as GlobalActions} from './Store/global'
+import {Actions as SlotActions} from './Store/slot'
+
+import getAssets from './Mocks/getAssets'
 
 let unsubscribe = () => {}
+
 const App = () => {
-    const [time = new Date().getTime(), setTime] = useState(0)
-    unsubscribe()
-    unsubscribe = Store.subscribe(() => setTime(new Date().getTime()))
+    
 
     const {dispatch} = Store
     const state = Store.getState()
     
-    if (!state.global.ready)
-        getAssets().then((assets: any) => {
-            dispatch(SlotActions.update({assets,}))
-            dispatch(GlobalActions.ready(true))
-        })
+    const [time = new Date().getTime(), setTime] = useState(0)
 
-    if (!state.global.ready)
+    unsubscribe()
+    unsubscribe = Store.subscribe(() => {
+        setTime(new Date().getTime())
+    })
+ 
+    if (!state.global.ready || !state.global.ready) {
+        getAssets().then((assets: any) => {
+           Store.dispatch(SlotActions.update({assets,}))
+           Store.dispatch(GlobalActions.ready(true))
+        })
         return (
             <div>
                 Loading...
             </div>
         )
+    }
     
     const {classes} = stylesheet
-    
+ 
     //console.log(time)
     return (
         //@ts-ignore
@@ -56,6 +61,7 @@ const App = () => {
                     <Wallet></Wallet>
                 </div> 
             </div>
+            <hr></hr>
         </Context.Provider>
     )
 };

@@ -1,5 +1,5 @@
 export const State = {
-    balance: 0
+    balance: 50000
 }
 
 export enum ActionType {

@@ -5136,255 +5136,7 @@ exports.options = n = {}, exports.isValidElement = l = function (n) {
 
   throw n;
 }, r = f, o = 0;
-},{}],"src/Mocks/delay.ts":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-}); // emulate server delay
-
-exports.default = function () {
-  return new Promise(function (resolve) {
-    return setTimeout(resolve, 500);
-  });
-};
-},{}],"src/Mocks/getAssets.ts":[function(require,module,exports) {
-"use strict";
-
-var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
-  function adopt(value) {
-    return value instanceof P ? value : new P(function (resolve) {
-      resolve(value);
-    });
-  }
-
-  return new (P || (P = Promise))(function (resolve, reject) {
-    function fulfilled(value) {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function rejected(value) {
-      try {
-        step(generator["throw"](value));
-      } catch (e) {
-        reject(e);
-      }
-    }
-
-    function step(result) {
-      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-    }
-
-    step((generator = generator.apply(thisArg, _arguments || [])).next());
-  });
-};
-
-var __generator = this && this.__generator || function (thisArg, body) {
-  var _ = {
-    label: 0,
-    sent: function sent() {
-      if (t[0] & 1) throw t[1];
-      return t[1];
-    },
-    trys: [],
-    ops: []
-  },
-      f,
-      y,
-      t,
-      g;
-  return g = {
-    next: verb(0),
-    "throw": verb(1),
-    "return": verb(2)
-  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
-    return this;
-  }), g;
-
-  function verb(n) {
-    return function (v) {
-      return step([n, v]);
-    };
-  }
-
-  function step(op) {
-    if (f) throw new TypeError("Generator is already executing.");
-
-    while (_) {
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-        if (y = 0, t) op = [op[0] & 2, t.value];
-
-        switch (op[0]) {
-          case 0:
-          case 1:
-            t = op;
-            break;
-
-          case 4:
-            _.label++;
-            return {
-              value: op[1],
-              done: false
-            };
-
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-
-          case 7:
-            op = _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-
-              _.ops.push(op);
-
-              break;
-            }
-
-            if (t[2]) _.ops.pop();
-
-            _.trys.pop();
-
-            continue;
-        }
-
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
-      }
-    }
-
-    if (op[0] & 5) throw op[1];
-    return {
-      value: op[0] ? op[1] : void 0,
-      done: true
-    };
-  }
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var delay_1 = __importDefault(require("./delay"));
-
-var fetchAsBlob = function fetchAsBlob(url) {
-  return fetch(url).then(function (response) {
-    return response.blob();
-  });
-};
-
-var convertBlobToBase64 = function convertBlobToBase64(blob) {
-  return new Promise(function (resolve, reject) {
-    var reader = new FileReader();
-    reader.onerror = reject;
-
-    reader.onload = function () {
-      resolve(reader.result);
-    };
-
-    reader.readAsDataURL(blob);
-  });
-};
-
-var getAsset = function getAsset(url) {
-  return fetchAsBlob(url).then(convertBlobToBase64);
-};
-
-var assets = ['/assets/3xBAR.png', '/assets/BAR.png', '/assets/2xBAR.png', '/assets/7.png', '/assets/Cherry.png'];
-
-exports.default = function () {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var result, _a, _b, _i, i, _c, _d;
-
-    return __generator(this, function (_e) {
-      switch (_e.label) {
-        case 0:
-          result = {};
-          _a = [];
-
-          for (_b in assets) {
-            _a.push(_b);
-          }
-
-          _i = 0;
-          _e.label = 1;
-
-        case 1:
-          if (!(_i < _a.length)) return [3
-          /*break*/
-          , 4];
-          i = _a[_i];
-          _c = result;
-          _d = i;
-          return [4
-          /*yield*/
-          , getAsset(assets[i])];
-
-        case 2:
-          _c[_d] = _e.sent();
-          _e.label = 3;
-
-        case 3:
-          _i++;
-          return [3
-          /*break*/
-          , 1];
-
-        case 4:
-          return [4
-          /*yield*/
-          , delay_1.default()];
-
-        case 5:
-          _e.sent();
-
-          return [2
-          /*return*/
-          , result];
-      }
-    });
-  });
-};
-},{"./delay":"src/Mocks/delay.ts"}],"node_modules/redux/es/redux.js":[function(require,module,exports) {
+},{}],"node_modules/redux/es/redux.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -6129,7 +5881,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.State = {
-  balance: 0
+  balance: 50000
 };
 var ActionType;
 
@@ -6212,7 +5964,10 @@ exports.State = {
   },
   reels: [0, 2, 4],
   prev: [0, 2, 4],
-  spining: false
+  spining: false,
+  // we apply winning combos after 
+  // the reels stop spinning
+  combosMatrix: [[false, false, false], [false, false, false], [false, false, false]]
 };
 var ActionType;
 
@@ -6251,8 +6006,11 @@ function default_1(state, action) {
     case ActionType.SPIN:
       state.spining = true;
       state.prev = state.reels;
-      var startPos = action.payload.startPos;
+      var _a = action.payload,
+          startPos = _a.startPos,
+          rewards = _a.rewards;
       state.reels = startPos;
+      state.combosMatrix = rewards.combosMatrix;
       setTimeout(function () {
         state.spining = false;
       }, 4000);
@@ -6269,26 +6027,24 @@ exports.default = default_1;
 
 Object.defineProperty(exports, "__esModule", {
   value: true
-});
+}); // default values
+
+var table = [['3xCHERRY :TOP', false, 2000, 1], ['3xCHERRY :CENTER', false, 1000, 1], ['3xCHERRY :BOTTOM', false, 4000, 1], ['3x7', false, 150, 1], ['CHERRY+7', false, 75, 1], ['3x3BAR', false, 50, 1], ['3x2BAR', false, 20, 1], ['3xBAR', false, 10, 1], ['BARS+BARS+BARS', false, 5, 1]];
 exports.State = {
   // wining combos from server
   // [name, blink?, reward, multiplier]
-  table: [['3xCHERRY :TOP', false, 2000, 1], ['3xCHERRY :CENTER', false, 1000, 1], ['3xCHERRY :BOTTOM', false, 4000, 1], ['3x7', false, 150, 1], ['CHERRY+7', false, 75, 1], ['3x3BAR', false, 50, 1], ['3x2BAR', false, 20, 1], ['3xBAR', false, 10, 1], ['BARS+BARS+BARS', false, 5, 1]]
+  table: table,
+  rewards: {
+    map: {}
+  }
 };
 var ActionType;
 
 (function (ActionType) {
-  ActionType["BLINK"] = "TABLE_BLINK";
   ActionType["UPDATE"] = "TABLE_UPDATE";
 })(ActionType = exports.ActionType || (exports.ActionType = {}));
 
 exports.Actions = {
-  blink: function blink(combo) {
-    return {
-      type: ActionType.BLINK,
-      payload: combo
-    };
-  },
   update: function update(new_state) {
     return {
       type: ActionType.UPDATE,
@@ -6307,19 +6063,16 @@ function default_1(state, action) {
       Object.keys(action.payload || {}).map(function (key) {
         state[key] = action.payload[key];
       });
-      return state;
+      Object.keys(state.rewards.map).map(function (key) {
+        var multiplier = state.rewards.map[key];
 
-    case ActionType.BLINK:
-      state.map(function (entry) {
-        var name = entry[0];
-
-        if (name === action.payload) {
-          entry[1] = true;
-          setTimeout(function () {
-            entry[1] = false;
-          }, 1000);
+        if (multiplier > 0) {
+          var index = parseInt(key);
+          state.table[index][1] = true;
+          state.table[index][3] = multiplier;
         }
       });
+      console.log(state, action.payload);
       return state;
 
     default:
@@ -6631,8 +6384,13 @@ Object.defineProperty(exports, "__esModule", {
 
 var jss_1 = __importDefault(require("jss"));
 
+var styles = null;
+
 exports.default = function (props) {
-  var style = jss_1.default.createStyleSheet({
+  document.querySelectorAll("[data-meta=\"spin" + props.landOffset + "\"]").forEach(function (e) {
+    e.remove();
+  });
+  var style = styles || jss_1.default.createStyleSheet({
     wrapper: {
       width: 120,
       height: 300,
@@ -6642,6 +6400,10 @@ exports.default = function (props) {
     spin: {
       animation: "$spinUp " + (props.landOffset + 2) + "s ease-in-out",
       '-webkit-animation-fill-mode': 'forwards'
+    },
+    win: {
+      animationDelay: 1.5 + 2 + "s",
+      animation: "$winCombo 1s ease-in-out"
     },
     image: {
       height: 100,
@@ -6658,9 +6420,28 @@ exports.default = function (props) {
       '100%': {
         transform: 'translateY(calc(-100px * 10))'
       }
+    },
+    '@keyframes winCombo': {
+      'from': {
+        transform: 'scale3d(1, 1, 1)'
+      },
+      '10%,20%': {
+        transform: ' scale3d(0.6, 0.6, 0.6) rotate3d(0, 0, 1, -3deg)'
+      },
+      '30%,50%,70%,90%': {
+        transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)'
+      },
+      '40%,60%,80%': {
+        transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)'
+      },
+      'to': {
+        transform: 'scale3d(1, 1, 1)'
+      }
     }
-  });
-  style.attach();
+  }, {
+    index: 1,
+    meta: 'spin' + props.landOffset
+  }).attach();
   return style;
 };
 },{"jss":"node_modules/jss/dist/jss.esm.js"}],"src/Wheel.tsx":[function(require,module,exports) {
@@ -6692,30 +6473,37 @@ var h = PReact.createElement;
 
 var Wheel_style_1 = __importDefault(require("./Styles/Wheel.style"));
 
-exports.default = function (props) {
+function default_1(props) {
   var assets = props.assets,
       defaultOrder = props.defaultOrder,
       spin = props.spin,
       startPosition = props.startPosition,
-      prev = props.prev;
+      prev = props.prev,
+      combos = props.combos;
   var classes = Wheel_style_1.default(props).classes;
   var seq = [];
 
   for (var i = 0; i < defaultOrder.length * 3; i++) {
-    if (i < defaultOrder.length) seq.push((i + prev) % defaultOrder.length); // always begin rotation from prev
+    if (i < defaultOrder.length && spin) seq.push((i + prev) % defaultOrder.length); // always begin rotation from prev
     else seq.push((i + startPosition) % defaultOrder.length);
   }
 
+  var isWinning = function isWinning(i) {
+    return spin && combos[i % defaultOrder.length];
+  };
+
   return h("div", {
     className: classes.wrapper + " " + (spin ? classes.spin : '')
-  }, seq.map(function (i) {
+  }, seq.map(function (symbolNum, i) {
     return h("div", {
-      className: classes.image
+      className: classes.image + (" " + (isWinning(i) ? classes.win : ''))
     }, h("img", {
-      src: assets[i]
+      src: assets[symbolNum]
     }));
   }));
-};
+}
+
+exports.default = default_1;
 },{"preact":"node_modules/preact/dist/preact.module.js","./Styles/Wheel.style":"src/Styles/Wheel.style.ts"}],"src/Styles/Slot.style.ts":[function(require,module,exports) {
 "use strict";
 
@@ -6744,7 +6532,20 @@ var style = jss_1.default.createStyleSheet({
     borderLeft: '6px solid',
     borderRight: '6px solid',
     transform: 'skewX(-2deg)',
-    margin: 26
+    margin: 26,
+    marginBottom: 2
+  },
+  spinButton: {
+    padding: 10,
+    fontSize: 20,
+    borderRadius: 6,
+    width: 'calc(100% - 70px)',
+    background: '#a00',
+    color: '#fff',
+    outline: 'none',
+    marginLeft: 30,
+    marginRight: 30,
+    transform: 'skewX(-2deg)'
   }
 });
 style.attach();
@@ -6906,10 +6707,12 @@ var Symbols;
   Symbols[Symbols["XX_BAR"] = 2] = "XX_BAR";
   Symbols[Symbols["SEVEN"] = 3] = "SEVEN";
   Symbols[Symbols["CHERRY"] = 4] = "CHERRY";
-})(Symbols || (Symbols = {})); // [name, blink?, reward, multiplier]
+})(Symbols || (Symbols = {})); // [name, win?, reward, multiplier]
 
 
-var table = [['3xCHERRY :TOP', false, 2000, 1], ['3xCHERRY :CENTER', false, 1000, 1], ['3xCHERRY :BOTTOM', false, 4000, 1], ['3x7', false, 150, 1], ['CHERRY+7', false, 75, 1], ['3x3BAR', false, 50, 1], ['3x2BAR', false, 20, 1], ['3xBAR', false, 10, 1], ['BARS+BARS+BARS', false, 5, 1]];
+var table = function table() {
+  return [['3xCHERRY :TOP', false, 2000, 1], ['3xCHERRY :CENTER', false, 1000, 1], ['3xCHERRY :BOTTOM', false, 4000, 1], ['3x7', false, 150, 1], ['CHERRY+7', false, 75, 1], ['3x3BAR', false, 50, 1], ['3x2BAR', false, 20, 1], ['3xBAR', false, 10, 1], ['BARS+BARS+BARS', false, 5, 1]];
+};
 
 var getRewards = function getRewards(matrix) {
   var all_cherry = function all_cherry(row) {
@@ -6952,59 +6755,59 @@ var getRewards = function getRewards(matrix) {
     7: 0,
     8: 0
   };
-  var lines = matrix.map(function (row, i) {
+  var combosMatrix = matrix.map(function (row, i) {
     if (i == 0 && all_cherry(row)) {
       map[0] += 1;
-      return true;
+      return [true, true, true];
     }
 
     if (i == 1 && all_cherry(row)) {
       map[1] += 1;
-      return true;
+      return [true, true, true];
     }
 
     if (i == 2 && all_cherry(row)) {
       map[2] += 1;
-      return true;
+      return [true, true, true];
     }
 
     if (all_seven(row)) {
       map[3] += 1;
-      return true;
+      return [true, true, true];
     }
-
-    console.log(new Set(row));
 
     if (cherry_and_seven(row)) {
       map[4] += 1;
-      return true;
+      return [0, 0, 0].map(function (win, pos) {
+        return row.indexOf(Symbols.CHERRY) == pos || row.indexOf(Symbols.SEVEN) == pos;
+      });
     }
 
     if (all_3bar(row)) {
       map[5] += 1;
-      return true;
+      return [true, true, true];
     }
 
     if (all_2bar(row)) {
       map[6] += 1;
-      return true;
+      return [true, true, true];
     }
 
     if (all_1bar(row)) {
       map[7] += 1;
-      return true;
+      return [true, true, true];
     }
 
     if (all_bars(row)) {
       map[8] += 1;
-      return true;
+      return [true, true, true];
     }
 
-    return false;
+    return [false, false, false];
   });
   return {
     map: map,
-    lines: lines
+    combosMatrix: combosMatrix
   };
 };
 
@@ -7033,7 +6836,7 @@ exports.request = function () {
       /*return*/
       , {
         startPos: startPos,
-        table: table,
+        table: table(),
         matrix: matrix,
         rewards: rewards
       }];
@@ -7051,7 +6854,7 @@ exports.debug = function (startPos) {
       /*return*/
       , {
         startPos: startPos,
-        table: table,
+        table: table(),
         matrix: matrix,
         rewards: rewards
       }];
@@ -7087,17 +6890,13 @@ var h = PReact.createElement;
 
 var Wheel_1 = __importDefault(require("./Wheel"));
 
-var hooks_1 = require("preact/hooks");
-
 var Store_1 = __importDefault(require("./Store"));
-
-var Context_1 = __importDefault(require("./Store/Context"));
-
-var slot_1 = require("./Store/slot");
 
 var Slot_style_1 = __importDefault(require("./Styles/Slot.style"));
 
 var spinRequest_1 = require("./Mocks/spinRequest");
+
+var slot_1 = require("./Store/slot");
 
 var paytable_1 = require("./Store/paytable");
 
@@ -7109,8 +6908,9 @@ var doDebug = function doDebug(reels) {
 
 var doRequest = function doRequest() {
   spinRequest_1.request().then(function (data) {
-    Store_1.default.dispatch(slot_1.Actions.spin(data));
-    console.log(data);
+    //console.log(data)
+    Store_1.default.dispatch(slot_1.Actions.spin(data)); //console.log(data)
+
     Store_1.default.dispatch(paytable_1.Actions.update({
       table: data.table,
       rewards: data.rewards
@@ -7118,15 +6918,26 @@ var doRequest = function doRequest() {
   });
 };
 
-exports.default = function (props) {
-  var _a = hooks_1.useContext(Context_1.default).slot,
+function default_1() {
+  var state = Store_1.default.getState();
+  var classes = Slot_style_1.default.classes;
+  var _a = state.slot,
       defaultOrder = _a.defaultOrder,
       assets = _a.assets,
       spining = _a.spining,
       reels = _a.reels,
-      prev = _a.prev;
-  var classes = Slot_style_1.default.classes;
-  var landOffsetTimeout = 0;
+      prev = _a.prev,
+      combosMatrix = _a.combosMatrix;
+  var landOffsetTimeout = 0; //we need to rotate 3x3 matix 90deg
+  //because the reels positioned vertically
+
+  var combos = [[], [], []];
+  [0, 1, 2].map(function (x) {
+    var y1 = combosMatrix[0],
+        y2 = combosMatrix[1],
+        y3 = combosMatrix[2];
+    combos[x] = [y1[x], y2[x], y3[x]];
+  });
   return h("div", null, h("div", {
     className: classes.box
   }, reels.map(function (pos, i) {
@@ -7136,15 +6947,19 @@ exports.default = function (props) {
       assets: assets,
       spin: spining,
       startPosition: pos,
+      combos: combos[i],
       landOffset: landOffsetTimeout += 0.5
     });
   })), h("div", null, h("button", {
+    className: classes.spinButton,
     onClick: function onClick() {
       return doRequest();
     }
   }, "Spin")));
-};
-},{"preact":"node_modules/preact/dist/preact.module.js","./Wheel":"src/Wheel.tsx","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Store":"src/Store/index.ts","./Store/Context":"src/Store/Context.ts","./Store/slot":"src/Store/slot.ts","./Styles/Slot.style":"src/Styles/Slot.style.ts","./Mocks/spinRequest":"src/Mocks/spinRequest.ts","./Store/paytable":"src/Store/paytable.ts"}],"src/Styles/Paytable.styles.ts":[function(require,module,exports) {
+}
+
+exports.default = default_1;
+},{"preact":"node_modules/preact/dist/preact.module.js","./Wheel":"src/Wheel.tsx","./Store":"src/Store/index.ts","./Styles/Slot.style":"src/Styles/Slot.style.ts","./Mocks/spinRequest":"src/Mocks/spinRequest.ts","./Store/slot":"src/Store/slot.ts","./Store/paytable":"src/Store/paytable.ts"}],"src/Styles/Paytable.styles.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -7159,30 +6974,79 @@ Object.defineProperty(exports, "__esModule", {
 
 var jss_1 = __importDefault(require("jss"));
 
-var style = jss_1.default.createStyleSheet({
-  table: {
-    transform: 'skewX(-2deg)',
-    listStyle: 'none',
-    '& li': {
-      padding: 6
-    }
-  },
-  blink: {
-    animation: '$blinking 1s infinite'
-  },
-  '@keyframes blinking': {
-    "0%": {
-      backgroundColor: '#ff3d50',
-      border: '5px solid #871924'
+exports.default = function (props) {
+  document.querySelectorAll("[data-meta=\"paytable\"]").forEach(function (e) {
+    e.remove();
+  });
+  var style = jss_1.default.createStyleSheet({
+    table: {
+      transform: 'skewX(-2deg)',
+      listStyle: 'none',
+      '& li': {
+        padding: 6
+      }
     },
-    '100%': {
-      backgroundColor: '#222291',
-      border: '5px solid #6565f2'
+    blink: {
+      animationDelay: '3.5s',
+      animation: '$blinking 1.5s'
+    },
+    multiplier: {
+      opacity: 0,
+      fontSize: 20,
+      animationDelay: '3.5s',
+      animation: '$blinkAndHide 2s'
+    },
+    hidden: {
+      opacity: 0
+    },
+    '@keyframes blinking': {
+      "0%": {
+        color: '#ff3d50',
+        borderBottom: '2px solid #871924'
+      },
+      '100%': {
+        color: '#222291',
+        borderBottom: '2px solid #6565f2'
+      }
+    },
+    '@keyframes blinkAndHide': {
+      "0%": {
+        opacity: 1,
+        color: '#ff3d50'
+      },
+      "10%": {
+        opacity: 1,
+        color: '#FFF'
+      },
+      "20%": {
+        opacity: 1,
+        color: '#ff3d50'
+      },
+      "30%": {
+        opacity: 1,
+        color: '#FFF'
+      },
+      "40%": {
+        opacity: 1,
+        color: '#ff3d50'
+      },
+      "50%": {
+        opacity: 1,
+        color: '#FFF'
+      },
+      "60%": {
+        opacity: 1,
+        color: '#ff3d50'
+      },
+      '100%': {
+        opacity: 0
+      }
     }
-  }
-});
-style.attach();
-exports.default = style;
+  }, {
+    meta: 'paytable'
+  }).attach();
+  return style;
+};
 },{"jss":"node_modules/jss/dist/jss.esm.js"}],"src/Paytable.tsx":[function(require,module,exports) {
 "use strict";
 
@@ -7216,9 +7080,10 @@ var Context_1 = __importDefault(require("./Store/Context"));
 
 var Paytable_styles_1 = __importDefault(require("./Styles/Paytable.styles"));
 
-exports.default = function () {
+exports.default = function (props) {
   var table = hooks_1.useContext(Context_1.default).paytable.table;
-  var classes = Paytable_styles_1.default.classes;
+  var spining = hooks_1.useContext(Context_1.default).slot.spining;
+  var classes = Paytable_styles_1.default(props).classes;
   return h("ul", {
     className: classes.table
   }, table.map(function (entry) {
@@ -7226,11 +7091,13 @@ exports.default = function () {
         blink = entry[1],
         reward = entry[2],
         multiplier = entry[3];
-    return h("li", {
-      className: blink && classes.blink
-    }, h("span", null, name), h("span", null, " -- "), h("b", {
+    return h("li", null, h("span", {
+      className: spining && blink ? classes.blink : ''
+    }, name), h("span", null, " -- "), h("b", {
       title: "Penis Dollars"
-    }, "$", reward), h("b", null, multiplier > 1 ? ' x ' + multiplier : ''));
+    }, "$", reward), h("b", {
+      className: spining && blink ? classes.multiplier : classes.hidden
+    }, multiplier > 1 ? ' x ' + multiplier : ''));
   }));
 };
 },{"preact":"node_modules/preact/dist/preact.module.js","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Store/Context":"src/Store/Context.ts","./Styles/Paytable.styles":"src/Styles/Paytable.styles.ts"}],"src/Styles/App.style.ts":[function(require,module,exports) {
@@ -7256,7 +7123,255 @@ var style = jss_1.default.createStyleSheet({
 });
 style.attach();
 exports.default = style;
-},{"jss":"node_modules/jss/dist/jss.esm.js"}],"src/index.tsx":[function(require,module,exports) {
+},{"jss":"node_modules/jss/dist/jss.esm.js"}],"src/Mocks/delay.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+}); // emulate server delay
+
+exports.default = function () {
+  return new Promise(function (resolve) {
+    return setTimeout(resolve, 500);
+  });
+};
+},{}],"src/Mocks/getAssets.ts":[function(require,module,exports) {
+"use strict";
+
+var __awaiter = this && this.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = this && this.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var delay_1 = __importDefault(require("./delay"));
+
+var fetchAsBlob = function fetchAsBlob(url) {
+  return fetch(url).then(function (response) {
+    return response.blob();
+  });
+};
+
+var convertBlobToBase64 = function convertBlobToBase64(blob) {
+  return new Promise(function (resolve, reject) {
+    var reader = new FileReader();
+    reader.onerror = reject;
+
+    reader.onload = function () {
+      resolve(reader.result);
+    };
+
+    reader.readAsDataURL(blob);
+  });
+};
+
+var getAsset = function getAsset(url) {
+  return fetchAsBlob(url).then(convertBlobToBase64);
+};
+
+var assets = ['/assets/3xBAR.png', '/assets/BAR.png', '/assets/2xBAR.png', '/assets/7.png', '/assets/Cherry.png'];
+
+exports.default = function () {
+  return __awaiter(void 0, void 0, void 0, function () {
+    var result, _a, _b, _i, i, _c, _d;
+
+    return __generator(this, function (_e) {
+      switch (_e.label) {
+        case 0:
+          result = {};
+          _a = [];
+
+          for (_b in assets) {
+            _a.push(_b);
+          }
+
+          _i = 0;
+          _e.label = 1;
+
+        case 1:
+          if (!(_i < _a.length)) return [3
+          /*break*/
+          , 4];
+          i = _a[_i];
+          _c = result;
+          _d = i;
+          return [4
+          /*yield*/
+          , getAsset(assets[i])];
+
+        case 2:
+          _c[_d] = _e.sent();
+          _e.label = 3;
+
+        case 3:
+          _i++;
+          return [3
+          /*break*/
+          , 1];
+
+        case 4:
+          return [4
+          /*yield*/
+          , delay_1.default()];
+
+        case 5:
+          _e.sent();
+
+          return [2
+          /*return*/
+          , result];
+      }
+    });
+  });
+};
+},{"./delay":"src/Mocks/delay.ts"}],"src/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -7289,17 +7404,11 @@ var PReact = __importStar(require("preact"));
 
 var h = PReact.createElement;
 
-var getAssets_1 = __importDefault(require("./Mocks/getAssets"));
-
 var Store_1 = __importDefault(require("./Store"));
 
 var context_1 = __importDefault(require("./Store/context"));
 
 var hooks_1 = require("preact/hooks");
-
-var global_1 = require("./Store/global");
-
-var slot_1 = require("./Store/slot");
 
 var Wallet_1 = __importDefault(require("./Wallet"));
 
@@ -7309,9 +7418,18 @@ var Paytable_1 = __importDefault(require("./Paytable"));
 
 var App_style_1 = __importDefault(require("./Styles/App.style"));
 
+var global_1 = require("./Store/global");
+
+var slot_1 = require("./Store/slot");
+
+var getAssets_1 = __importDefault(require("./Mocks/getAssets"));
+
 var unsubscribe = function unsubscribe() {};
 
 var App = function App() {
+  var dispatch = Store_1.default.dispatch;
+  var state = Store_1.default.getState();
+
   var _a = hooks_1.useState(0),
       _b = _a[0],
       time = _b === void 0 ? new Date().getTime() : _b,
@@ -7319,17 +7437,19 @@ var App = function App() {
 
   unsubscribe();
   unsubscribe = Store_1.default.subscribe(function () {
-    return setTime(new Date().getTime());
+    setTime(new Date().getTime());
   });
-  var dispatch = Store_1.default.dispatch;
-  var state = Store_1.default.getState();
-  if (!state.global.ready) getAssets_1.default().then(function (assets) {
-    dispatch(slot_1.Actions.update({
-      assets: assets
-    }));
-    dispatch(global_1.Actions.ready(true));
-  });
-  if (!state.global.ready) return h("div", null, "Loading...");
+
+  if (!state.global.ready || !state.global.ready) {
+    getAssets_1.default().then(function (assets) {
+      Store_1.default.dispatch(slot_1.Actions.update({
+        assets: assets
+      }));
+      Store_1.default.dispatch(global_1.Actions.ready(true));
+    });
+    return h("div", null, "Loading...");
+  }
+
   var classes = App_style_1.default.classes; //console.log(time)
 
   return (//@ts-ignore
@@ -7337,12 +7457,12 @@ var App = function App() {
       value: state
     }, h("div", {
       className: classes.container
-    }, h("div", null, h(Slot_1.default, null)), h("div", null, h(Paytable_1.default, null), h(Wallet_1.default, null))))
+    }, h("div", null, h(Slot_1.default, null)), h("div", null, h(Paytable_1.default, null), h(Wallet_1.default, null))), h("hr", null))
   );
 };
 
 PReact.render(h(App, null), document.getElementById('root'));
-},{"jss":"node_modules/jss/dist/jss.esm.js","jss-preset-default":"node_modules/jss-preset-default/dist/jss-preset-default.esm.js","preact":"node_modules/preact/dist/preact.module.js","./Mocks/getAssets":"src/Mocks/getAssets.ts","./Store":"src/Store/index.ts","./Store/context":"src/Store/context.ts","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Store/global":"src/Store/global.ts","./Store/slot":"src/Store/slot.ts","./Wallet":"src/Wallet.tsx","./Slot":"src/Slot.tsx","./Paytable":"src/Paytable.tsx","./Styles/App.style":"src/Styles/App.style.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"jss":"node_modules/jss/dist/jss.esm.js","jss-preset-default":"node_modules/jss-preset-default/dist/jss-preset-default.esm.js","preact":"node_modules/preact/dist/preact.module.js","./Store":"src/Store/index.ts","./Store/context":"src/Store/context.ts","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Wallet":"src/Wallet.tsx","./Slot":"src/Slot.tsx","./Paytable":"src/Paytable.tsx","./Styles/App.style":"src/Styles/App.style.ts","./Store/global":"src/Store/global.ts","./Store/slot":"src/Store/slot.ts","./Mocks/getAssets":"src/Mocks/getAssets.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

@@ -10,6 +10,12 @@ export const State = {
     prev: [0, 2, 4], // current rotation begins from prev start positions
 
     spining: false,
+
+    // we apply winning combos after 
+    // the reels stop spinning
+    combosMatrix: [[false,false,false],
+                  [false,false,false],
+                  [false,false,false]]
 }
 
 export enum ActionType {
@@ -48,8 +54,9 @@ export default function (state: any = State, action: any){
 
             state.spining = true; 
             state.prev = state.reels
-            const {startPos} = action.payload
+            const {startPos, rewards} = action.payload
             state.reels = startPos
+            state.combosMatrix = rewards.combosMatrix
             setTimeout(() => {
                 state.spining = false
             },4000)

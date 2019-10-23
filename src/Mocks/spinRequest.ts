@@ -7,8 +7,8 @@ enum Symbols {
     CHERRY = 4
 }
 
-// [name, blink?, reward, multiplier]
-const table = [
+// [name, win?, reward, multiplier]
+const table = () => [
     ['3xCHERRY :TOP',  false, 2000, 1],
     ['3xCHERRY :CENTER',  false, 1000, 1],
     ['3xCHERRY :BOTTOM', false, 4000, 1],
@@ -60,56 +60,59 @@ const getRewards = (matrix: any[]) => {
     
     //map to table, index:mulpiplier
     const map = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
-    const lines = matrix.map((row: any[], i) => {
+    const combosMatrix = matrix.map((row: any[], i) => {
         if (i == 0 && all_cherry(row)) {
             map[0] += 1
-            return true
+            return [true, true, true]
         }
         if (i == 1 && all_cherry(row)) {
             map[1] += 1
-            return true
+            return [true, true, true]
         }
         if (i == 2 && all_cherry(row)) {
             map[2] += 1
-            return true
+            return [true, true, true]
         }
         if (all_seven(row)) {
             map[3] += 1
-            return true
+            return [true, true, true]
         }
-        console.log(new Set(row))
+
         if (cherry_and_seven(row)) {
             map[4] += 1
-            return true
+            return [0, 0, 0].map((win, pos) =>(
+                row.indexOf(Symbols.CHERRY) == pos ||
+                row.indexOf(Symbols.SEVEN) == pos
+            ))
         }
 
         if(all_3bar(row)){
             map[5]+=1
-            return true
+            return [true, true, true]
         }
 
         if(all_2bar(row)) {
             map[6] += 1
-            return true
+            return [true, true, true]
         }
 
         if(all_1bar(row)) {
             map[7] += 1
-            return true
+            return [true, true, true]
         }
 
         if(all_bars(row)) {
             map[8] += 1
-            return true
+            return [true, true, true]
         }
 
-        return false
+        return [false, false, false]
 
     })
 
     return {
         map,
-        lines
+        combosMatrix
     }
 
 
@@ -141,7 +144,7 @@ export const request = async () => {
     const rewards = getRewards(matrix)
     return {
         startPos,
-        table,
+        table: table(),
         matrix,
         rewards
     }
@@ -152,7 +155,7 @@ export const debug = async (startPos: number[]) => {
     const rewards = getRewards(matrix)
     return {
         startPos,
-        table,
+        table: table(),
         matrix,
         rewards
     }

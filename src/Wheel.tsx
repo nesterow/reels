@@ -1,26 +1,27 @@
-import * as PReact from 'preact';
+import * as PReact from 'preact'
 const h = PReact.createElement
-
-import {useContext} from 'preact/hooks'
-import Context from './Store/Context'
 import stylesheet from './Styles/Wheel.style' 
 
 
-export default (props) => {
-    const {assets, defaultOrder, spin, startPosition, prev} = props
+export default function (props) {
+    const {assets, defaultOrder, spin, startPosition, prev, combos} = props
     const {classes} = stylesheet(props)
+    
     const seq: any[] = []
     for (let i = 0; i < defaultOrder.length * 3; i++) {
-        if (i < defaultOrder.length)
+        if (i < defaultOrder.length && spin)
             seq.push((i + prev) % defaultOrder.length) // always begin rotation from prev
         else
             seq.push((i + startPosition) % defaultOrder.length)
     }
+
+    const isWinning = (i: number) => spin && combos[i % defaultOrder.length]
+
     return (
         <div className={ `${classes.wrapper} ${spin ? classes.spin : ''}` }>
-            {seq.map((i: number) =>(
-                <div className={classes.image}> 
-                    <img src={assets[i]}></img> 
+            {seq.map((symbolNum: number, i: number) =>(
+                <div className={classes.image + ` ${isWinning(i) ? classes.win : ''}`}> 
+                    <img src={assets[symbolNum]}></img> 
                 </div>
             ))}
         </div>

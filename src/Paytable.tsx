@@ -4,19 +4,22 @@ import {useContext} from 'preact/hooks'
 import Context from './Store/Context'
 import stylesheet from './Styles/Paytable.styles'
 
-export default () => {
+export default (props) => {
     const {table} = useContext(Context).paytable
-    const {classes} = stylesheet
+    const {spining} = useContext(Context).slot
+    const {classes} = stylesheet(props)
     return (
         <ul className={classes.table}>{
             table.map((entry: any[]) => {
                 const [name, blink, reward, multiplier] = entry
                 return (
-                <li className={blink && classes.blink}>
-                    <span>{name}</span>
+                <li>
+                    <span className={ (spining && blink) ? classes.blink : ''}>{name}</span>
                     <span> -- </span>
                     <b title="Penis Dollars">${reward}</b>
-                    <b>{(multiplier > 1 ? ' x ' + multiplier : '')}</b> 
+                    <b className={(spining && blink) ? classes.multiplier : classes.hidden}>
+                        {(multiplier > 1 ? ' x ' + multiplier : '')}
+                    </b> 
                 </li>
             )})
         }</ul>

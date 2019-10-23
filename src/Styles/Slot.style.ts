@@ -13,8 +13,21 @@ const style = jss.createStyleSheet({
         borderLeft: '6px solid',
         borderRight: '6px solid',
         transform: 'skewX(-2deg)',
-        margin: 26
+        margin: 26,
+        marginBottom: 2
     },
+    spinButton: {
+        padding: 10,
+        fontSize: 20,
+        borderRadius: 6,
+        width: 'calc(100% - 70px)',
+        background: '#a00',
+        color: '#fff',
+        outline: 'none',
+        marginLeft: 30,
+        marginRight: 30,
+        transform: 'skewX(-2deg)',
+    }
 })
 style.attach()
 export default style
