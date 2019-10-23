@@ -1,6 +1,9 @@
 export const State = {
     locked: false,
-    ready: false
+    ready: false,
+    debug: {
+        startPos: false
+    }
 }
 
 export enum ActionType {
@@ -31,7 +34,7 @@ export default function (state: any = State, action: any){
             state.ready = action.payload
             return state
         case ActionType.LOCK:
-            state.lock = action.payload
+            state.locked = action.payload
             return state
         default:
             return state

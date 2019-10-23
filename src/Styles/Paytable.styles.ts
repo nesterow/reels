@@ -26,7 +26,8 @@ export default (props) => {
         },
 
         hidden: {
-            opacity: 0
+            opacity: 0,
+            fontSize: 0
         },
 
         '@keyframes blinking': {
@@ -70,7 +71,7 @@ export default (props) => {
                 color: '#ff3d50',
             },
             '100%':{
-                opacity:0
+                opacity:0,
             }
         },
 

@@ -56,7 +56,6 @@ export default function (state: any = State, action: any){
                     state.table[index][3] = multiplier
                 }
             })
-            console.log(state, action.payload)
             return state
         
 

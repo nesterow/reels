@@ -5,25 +5,29 @@ import Wheel from './Wheel'
 import Store from './Store'
 
 import stylesheet from './Styles/Slot.style'
-import {debug, request} from './Mocks/spinRequest'
+import {request} from './Mocks/spinRequest'
 
 import {Actions as SlotActions} from './Store/slot'
 import {Actions as PaytableActions} from './Store/paytable'
+import {Actions as WalletActions} from './Store/wallet'
+import {Actions as GlobalActions} from './Store/global'
 
 
-
-const doDebug = (reels) => {
-    debug(reels).then((data) => {
-        Store.dispatch(SlotActions.spin(data))
-    })
-}
 
 const doRequest= () => {
+    const {dispatch} = Store
+    dispatch(GlobalActions.lock(true))
     request().then((data) => {
-        //console.log(data)
-        Store.dispatch(SlotActions.spin(data))
-        //console.log(data)
-        Store.dispatch(PaytableActions.update({table:data.table, rewards: data.rewards}))
+        dispatch(WalletActions.dec(1))
+        dispatch(SlotActions.spin(data))
+        dispatch(PaytableActions.update({
+            table:data.table, 
+            rewards: data.rewards
+        }))
+        setTimeout(()=> {
+            dispatch(WalletActions.inc(data.rewards.sum))
+            dispatch(GlobalActions.lock(false))
+        },4500)
     })
 }
 
@@ -62,7 +66,9 @@ export default function () {
                 }
             </div>
             <div>
-                <button className={classes.spinButton} onClick={()=> doRequest()}>Spin</button>
+                <button className={classes.spinButton} onClick={()=> doRequest()}>
+                    Spin
+                </button>
             </div>
         </div>
     )

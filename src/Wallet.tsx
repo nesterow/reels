@@ -13,15 +13,14 @@ export default () => {
     return (
         <div>
             <hr></hr>
-            <label>Balance $</label>
-            <input value={wallet.balance} onBlur={(e) => {
+            <label style={{fontSize: 26}} title="Penis Dollars">
+                Balance $
+            </label>
+            <input style={{padding: 12, fontSize: 16}} value={wallet.balance} onBlur={(e) => {
                 dispatch(Actions.update({
                     balance: parseInt(e.target.value)
                 }))
             }}/>
-            <button onClick={() => dispatch(Actions.inc(1))}>
-                +
-            </button>
         </div>
     )
 }

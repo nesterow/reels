@@ -20,7 +20,7 @@ const table = () => [
     ['BARS+BARS+BARS', false, 5, 1]
 ]
 
-const getRewards = (matrix: any[]) => {
+const getRewards = async (matrix: any[]) => {
     
     const all_cherry = (row: any[]) => (
         new Set(row).size === 1 && 
@@ -60,26 +60,33 @@ const getRewards = (matrix: any[]) => {
     
     //map to table, index:mulpiplier
     const map = {0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0}
+    let sum = 0
     const combosMatrix = matrix.map((row: any[], i) => {
+
         if (i == 0 && all_cherry(row)) {
             map[0] += 1
+            sum += table()[0][2] as number
             return [true, true, true]
         }
         if (i == 1 && all_cherry(row)) {
             map[1] += 1
+            sum += table()[1][2] as number
             return [true, true, true]
         }
         if (i == 2 && all_cherry(row)) {
             map[2] += 1
+            sum += table()[2][2] as number
             return [true, true, true]
         }
         if (all_seven(row)) {
             map[3] += 1
+            sum += table()[3][2] as number
             return [true, true, true]
         }
 
         if (cherry_and_seven(row)) {
             map[4] += 1
+            sum += table()[4][2] as number
             return [0, 0, 0].map((win, pos) =>(
                 row.indexOf(Symbols.CHERRY) == pos ||
                 row.indexOf(Symbols.SEVEN) == pos
@@ -88,21 +95,25 @@ const getRewards = (matrix: any[]) => {
 
         if(all_3bar(row)){
             map[5]+=1
+            sum += table()[5][2] as number
             return [true, true, true]
         }
 
         if(all_2bar(row)) {
             map[6] += 1
+            sum += table()[6][2] as number
             return [true, true, true]
         }
 
         if(all_1bar(row)) {
             map[7] += 1
+            sum += table()[7][2] as number
             return [true, true, true]
         }
 
         if(all_bars(row)) {
             map[8] += 1
+            sum += table()[8][2] as number
             return [true, true, true]
         }
 
@@ -112,7 +123,8 @@ const getRewards = (matrix: any[]) => {
 
     return {
         map,
-        combosMatrix
+        combosMatrix,
+        sum,
     }
 
 
@@ -120,7 +132,7 @@ const getRewards = (matrix: any[]) => {
 
 
 
-const getMatrix = (startPositions: number[]) => {
+const getMatrix = async (startPositions: number[]) => {
     // i've got 5x3 matrix with 2 hidden elemenents
     // for conveninece symbols are enumerated from 0 to 1
     const matrix = [[0, 0, 0],
@@ -140,8 +152,8 @@ export const request = async () => {
     const startPos: number[] = [1, 2, 3].map(() => {
         return Math.floor(Math.random() * 5)
     })
-    const matrix = getMatrix(startPos)
-    const rewards = getRewards(matrix)
+    const matrix = await getMatrix(startPos)
+    const rewards = await getRewards(matrix)
     return {
         startPos,
         table: table(),
@@ -150,9 +162,15 @@ export const request = async () => {
     }
 }
 
-export const debug = async (startPos: number[]) => {
-    const matrix = getMatrix(startPos)
-    const rewards = getRewards(matrix)
+export const debug = async (pos: number[]) => {
+    // if some values are selected from debug
+    // we pick random only for not selected values
+    const startPos: number[] = pos.map((num: any) => {
+        return num === false ? 
+            Math.floor(Math.random() * 5) : num
+    })
+    const matrix = await getMatrix(startPos)
+    const rewards = await getRewards(matrix)
     return {
         startPos,
         table: table(),

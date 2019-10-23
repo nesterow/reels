@@ -5822,7 +5822,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.State = {
   locked: false,
-  ready: false
+  ready: false,
+  debug: {
+    startPos: false
+  }
 };
 var ActionType;
 
@@ -5865,7 +5868,7 @@ function default_1(state, action) {
       return state;
 
     case ActionType.LOCK:
-      state.lock = action.payload;
+      state.locked = action.payload;
       return state;
 
     default:
@@ -5881,7 +5884,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.State = {
-  balance: 50000
+  balance: 5000
 };
 var ActionType;
 
@@ -5927,11 +5930,11 @@ function default_1(state, action) {
 
   switch (action.type) {
     case ActionType.INCREMENT:
-      state.balance += action.payload || 1;
+      state.balance += action.payload;
       return state;
 
     case ActionType.DECREMENT:
-      state.balance -= action.payload || 1;
+      state.balance -= action.payload;
       return state;
 
     case ActionType.UPDATE:
@@ -6072,7 +6075,6 @@ function default_1(state, action) {
           state.table[index][3] = multiplier;
         }
       });
-      console.log(state, action.payload);
       return state;
 
     default:
@@ -6356,18 +6358,23 @@ var wallet_1 = require("./Store/wallet");
 exports.default = function () {
   var dispatch = Store_1.default.dispatch;
   var wallet = hooks_1.useContext(Context_1.default).wallet;
-  return h("div", null, h("hr", null), h("label", null, "Balance $"), h("input", {
+  return h("div", null, h("hr", null), h("label", {
+    style: {
+      fontSize: 26
+    },
+    title: "Penis Dollars"
+  }, "Balance $"), h("input", {
+    style: {
+      padding: 12,
+      fontSize: 16
+    },
     value: wallet.balance,
     onBlur: function onBlur(e) {
       dispatch(wallet_1.Actions.update({
         balance: parseInt(e.target.value)
       }));
     }
-  }), h("button", {
-    onClick: function onClick() {
-      return dispatch(wallet_1.Actions.inc(1));
-    }
-  }, "+"));
+  }));
 };
 },{"preact":"node_modules/preact/dist/preact.module.js","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Store":"src/Store/index.ts","./Store/Context":"src/Store/Context.ts","./Store/wallet":"src/Store/wallet.ts"}],"src/Styles/Wheel.style.ts":[function(require,module,exports) {
 "use strict";
@@ -6715,149 +6722,200 @@ var table = function table() {
 };
 
 var getRewards = function getRewards(matrix) {
-  var all_cherry = function all_cherry(row) {
-    return new Set(row).size === 1 && row.includes(Symbols.CHERRY);
-  };
+  return __awaiter(void 0, void 0, void 0, function () {
+    var all_cherry, all_seven, all_3bar, all_2bar, all_1bar, all_bars, cherry_and_seven, map, sum, combosMatrix;
+    return __generator(this, function (_a) {
+      all_cherry = function all_cherry(row) {
+        return new Set(row).size === 1 && row.includes(Symbols.CHERRY);
+      };
 
-  var all_seven = function all_seven(row) {
-    return new Set(row).size === 1 && row.includes(Symbols.SEVEN);
-  };
+      all_seven = function all_seven(row) {
+        return new Set(row).size === 1 && row.includes(Symbols.SEVEN);
+      };
 
-  var all_3bar = function all_3bar(row) {
-    return new Set(row).size === 1 && row.includes(Symbols.XXX_BAR);
-  };
+      all_3bar = function all_3bar(row) {
+        return new Set(row).size === 1 && row.includes(Symbols.XXX_BAR);
+      };
 
-  var all_2bar = function all_2bar(row) {
-    return new Set(row).size === 1 && row.includes(Symbols.XX_BAR);
-  };
+      all_2bar = function all_2bar(row) {
+        return new Set(row).size === 1 && row.includes(Symbols.XX_BAR);
+      };
 
-  var all_1bar = function all_1bar(row) {
-    return new Set(row).size === 1 && row.includes(Symbols.X_BAR);
-  };
+      all_1bar = function all_1bar(row) {
+        return new Set(row).size === 1 && row.includes(Symbols.X_BAR);
+      };
 
-  var all_bars = function all_bars(row) {
-    return !row.includes(Symbols.CHERRY) && !row.includes(Symbols.SEVEN);
-  };
+      all_bars = function all_bars(row) {
+        return !row.includes(Symbols.CHERRY) && !row.includes(Symbols.SEVEN);
+      };
 
-  var cherry_and_seven = function cherry_and_seven(row) {
-    return row.includes(Symbols.SEVEN) && row.includes(Symbols.CHERRY);
-  }; //map to table, index:mulpiplier
+      cherry_and_seven = function cherry_and_seven(row) {
+        return row.includes(Symbols.SEVEN) && row.includes(Symbols.CHERRY);
+      };
 
+      map = {
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0
+      };
+      sum = 0;
+      combosMatrix = matrix.map(function (row, i) {
+        if (i == 0 && all_cherry(row)) {
+          map[0] += 1;
+          sum += table()[0][2];
+          return [true, true, true];
+        }
 
-  var map = {
-    0: 0,
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0
-  };
-  var combosMatrix = matrix.map(function (row, i) {
-    if (i == 0 && all_cherry(row)) {
-      map[0] += 1;
-      return [true, true, true];
-    }
+        if (i == 1 && all_cherry(row)) {
+          map[1] += 1;
+          sum += table()[1][2];
+          return [true, true, true];
+        }
 
-    if (i == 1 && all_cherry(row)) {
-      map[1] += 1;
-      return [true, true, true];
-    }
+        if (i == 2 && all_cherry(row)) {
+          map[2] += 1;
+          sum += table()[2][2];
+          return [true, true, true];
+        }
 
-    if (i == 2 && all_cherry(row)) {
-      map[2] += 1;
-      return [true, true, true];
-    }
+        if (all_seven(row)) {
+          map[3] += 1;
+          sum += table()[3][2];
+          return [true, true, true];
+        }
 
-    if (all_seven(row)) {
-      map[3] += 1;
-      return [true, true, true];
-    }
+        if (cherry_and_seven(row)) {
+          map[4] += 1;
+          sum += table()[4][2];
+          return [0, 0, 0].map(function (win, pos) {
+            return row.indexOf(Symbols.CHERRY) == pos || row.indexOf(Symbols.SEVEN) == pos;
+          });
+        }
 
-    if (cherry_and_seven(row)) {
-      map[4] += 1;
-      return [0, 0, 0].map(function (win, pos) {
-        return row.indexOf(Symbols.CHERRY) == pos || row.indexOf(Symbols.SEVEN) == pos;
+        if (all_3bar(row)) {
+          map[5] += 1;
+          sum += table()[5][2];
+          return [true, true, true];
+        }
+
+        if (all_2bar(row)) {
+          map[6] += 1;
+          sum += table()[6][2];
+          return [true, true, true];
+        }
+
+        if (all_1bar(row)) {
+          map[7] += 1;
+          sum += table()[7][2];
+          return [true, true, true];
+        }
+
+        if (all_bars(row)) {
+          map[8] += 1;
+          sum += table()[8][2];
+          return [true, true, true];
+        }
+
+        return [false, false, false];
       });
-    }
-
-    if (all_3bar(row)) {
-      map[5] += 1;
-      return [true, true, true];
-    }
-
-    if (all_2bar(row)) {
-      map[6] += 1;
-      return [true, true, true];
-    }
-
-    if (all_1bar(row)) {
-      map[7] += 1;
-      return [true, true, true];
-    }
-
-    if (all_bars(row)) {
-      map[8] += 1;
-      return [true, true, true];
-    }
-
-    return [false, false, false];
+      return [2
+      /*return*/
+      , {
+        map: map,
+        combosMatrix: combosMatrix,
+        sum: sum
+      }];
+    });
   });
-  return {
-    map: map,
-    combosMatrix: combosMatrix
-  };
 };
 
 var getMatrix = function getMatrix(startPositions) {
-  // i've got 5x3 matrix with 2 hidden elemenents
-  // for conveninece symbols are enumerated from 0 to 1
-  var matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]].map(function (row, x) {
-    return row.map(function (col, y) {
-      var begin = startPositions[y];
-      return (x + begin) % 5;
+  return __awaiter(void 0, void 0, void 0, function () {
+    var matrix;
+    return __generator(this, function (_a) {
+      matrix = [[0, 0, 0], [0, 0, 0], [0, 0, 0]].map(function (row, x) {
+        return row.map(function (col, y) {
+          var begin = startPositions[y];
+          return (x + begin) % 5;
+        });
+      });
+      return [2
+      /*return*/
+      , matrix];
     });
   });
-  return matrix;
 };
 
 exports.request = function () {
   return __awaiter(void 0, void 0, void 0, function () {
     var startPos, matrix, rewards;
     return __generator(this, function (_a) {
-      startPos = [1, 2, 3].map(function () {
-        return Math.floor(Math.random() * 5);
-      });
-      matrix = getMatrix(startPos);
-      rewards = getRewards(matrix);
-      return [2
-      /*return*/
-      , {
-        startPos: startPos,
-        table: table(),
-        matrix: matrix,
-        rewards: rewards
-      }];
+      switch (_a.label) {
+        case 0:
+          startPos = [1, 2, 3].map(function () {
+            return Math.floor(Math.random() * 5);
+          });
+          return [4
+          /*yield*/
+          , getMatrix(startPos)];
+
+        case 1:
+          matrix = _a.sent();
+          return [4
+          /*yield*/
+          , getRewards(matrix)];
+
+        case 2:
+          rewards = _a.sent();
+          return [2
+          /*return*/
+          , {
+            startPos: startPos,
+            table: table(),
+            matrix: matrix,
+            rewards: rewards
+          }];
+      }
     });
   });
 };
 
-exports.debug = function (startPos) {
+exports.debug = function (pos) {
   return __awaiter(void 0, void 0, void 0, function () {
-    var matrix, rewards;
+    var startPos, matrix, rewards;
     return __generator(this, function (_a) {
-      matrix = getMatrix(startPos);
-      rewards = getRewards(matrix);
-      return [2
-      /*return*/
-      , {
-        startPos: startPos,
-        table: table(),
-        matrix: matrix,
-        rewards: rewards
-      }];
+      switch (_a.label) {
+        case 0:
+          startPos = pos.map(function (num) {
+            return num === false ? Math.floor(Math.random() * 5) : num;
+          });
+          return [4
+          /*yield*/
+          , getMatrix(startPos)];
+
+        case 1:
+          matrix = _a.sent();
+          return [4
+          /*yield*/
+          , getRewards(matrix)];
+
+        case 2:
+          rewards = _a.sent();
+          return [2
+          /*return*/
+          , {
+            startPos: startPos,
+            table: table(),
+            matrix: matrix,
+            rewards: rewards
+          }];
+      }
     });
   });
 };
@@ -6900,21 +6958,24 @@ var slot_1 = require("./Store/slot");
 
 var paytable_1 = require("./Store/paytable");
 
-var doDebug = function doDebug(reels) {
-  spinRequest_1.debug(reels).then(function (data) {
-    Store_1.default.dispatch(slot_1.Actions.spin(data));
-  });
-};
+var wallet_1 = require("./Store/wallet");
+
+var global_1 = require("./Store/global");
 
 var doRequest = function doRequest() {
+  var dispatch = Store_1.default.dispatch;
+  dispatch(global_1.Actions.lock(true));
   spinRequest_1.request().then(function (data) {
-    //console.log(data)
-    Store_1.default.dispatch(slot_1.Actions.spin(data)); //console.log(data)
-
-    Store_1.default.dispatch(paytable_1.Actions.update({
+    dispatch(wallet_1.Actions.dec(1));
+    dispatch(slot_1.Actions.spin(data));
+    dispatch(paytable_1.Actions.update({
       table: data.table,
       rewards: data.rewards
     }));
+    setTimeout(function () {
+      dispatch(wallet_1.Actions.inc(data.rewards.sum));
+      dispatch(global_1.Actions.lock(false));
+    }, 4500);
   });
 };
 
@@ -6959,7 +7020,7 @@ function default_1() {
 }
 
 exports.default = default_1;
-},{"preact":"node_modules/preact/dist/preact.module.js","./Wheel":"src/Wheel.tsx","./Store":"src/Store/index.ts","./Styles/Slot.style":"src/Styles/Slot.style.ts","./Mocks/spinRequest":"src/Mocks/spinRequest.ts","./Store/slot":"src/Store/slot.ts","./Store/paytable":"src/Store/paytable.ts"}],"src/Styles/Paytable.styles.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.module.js","./Wheel":"src/Wheel.tsx","./Store":"src/Store/index.ts","./Styles/Slot.style":"src/Styles/Slot.style.ts","./Mocks/spinRequest":"src/Mocks/spinRequest.ts","./Store/slot":"src/Store/slot.ts","./Store/paytable":"src/Store/paytable.ts","./Store/wallet":"src/Store/wallet.ts","./Store/global":"src/Store/global.ts"}],"src/Styles/Paytable.styles.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -6997,7 +7058,8 @@ exports.default = function (props) {
       animation: '$blinkAndHide 2s'
     },
     hidden: {
-      opacity: 0
+      opacity: 0,
+      fontSize: 0
     },
     '@keyframes blinking': {
       "0%": {
@@ -7100,7 +7162,139 @@ exports.default = function (props) {
     }, multiplier > 1 ? ' x ' + multiplier : ''));
   }));
 };
-},{"preact":"node_modules/preact/dist/preact.module.js","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Store/Context":"src/Store/Context.ts","./Styles/Paytable.styles":"src/Styles/Paytable.styles.ts"}],"src/Styles/App.style.ts":[function(require,module,exports) {
+},{"preact":"node_modules/preact/dist/preact.module.js","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Store/Context":"src/Store/Context.ts","./Styles/Paytable.styles":"src/Styles/Paytable.styles.ts"}],"src/Debug.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var PReact = __importStar(require("preact"));
+
+var h = PReact.createElement;
+
+var spinRequest_1 = require("./Mocks/spinRequest");
+
+var Store_1 = __importDefault(require("./Store"));
+
+var slot_1 = require("./Store/slot");
+
+var paytable_1 = require("./Store/paytable");
+
+var wallet_1 = require("./Store/wallet");
+
+var global_1 = require("./Store/global");
+
+var doDebug = function doDebug(startPos) {
+  console.log(startPos);
+  var dispatch = Store_1.default.dispatch;
+  dispatch(global_1.Actions.lock(true));
+  spinRequest_1.debug(startPos).then(function (data) {
+    dispatch(wallet_1.Actions.dec(1));
+    dispatch(slot_1.Actions.spin(data));
+    dispatch(paytable_1.Actions.update({
+      table: data.table,
+      rewards: data.rewards
+    }));
+    setTimeout(function () {
+      dispatch(wallet_1.Actions.inc(data.rewards.sum));
+      dispatch(global_1.Actions.lock(false));
+    }, 4500);
+  });
+};
+
+function default_1() {
+  var _this = this;
+
+  this.refs = [{}, {}, {}];
+
+  var setRef = function setRef(dom, reel, name) {
+    return _this.refs[reel][name] = dom;
+  };
+
+  var startPos = [false, false, false];
+
+  var setStartValues = function setStartValues(reel, symbol) {
+    startPos[reel] = parseInt(symbol);
+  };
+
+  var setStartPositions = function setStartPositions(reel, pos) {
+    var offset = startPos[reel] - parseInt(pos); // we need to invert offset for negatives
+
+    offset = offset < 0 ? Math.abs(Math.abs(offset) - 5) % 5 : offset;
+    startPos[reel] = offset;
+  };
+
+  var spin = function spin() {
+    _this.refs.map(function (e, reel) {
+      var symbol = e['sym'].value;
+      var pos = e['pos'].value;
+
+      if (symbol && pos) {
+        setStartValues(reel, symbol);
+        setStartPositions(reel, pos);
+      }
+    });
+
+    doDebug(startPos);
+  };
+
+  return h("div", null, h("h4", null, "DEBUG AREA"), [0, 1, 2].map(function (reel) {
+    return h("div", null, h("hr", null), h("label", null, "REEL #", reel + 1, ": "), h("select", {
+      ref: function ref(dom) {
+        return setRef(dom, reel, 'sym');
+      }
+    }, h("option", {
+      value: ""
+    }, "Select Symbol"), h("option", {
+      value: "0"
+    }, "3xBAR"), h("option", {
+      value: "1"
+    }, "BAR"), h("option", {
+      value: "2"
+    }, "2xBAR"), h("option", {
+      value: "3"
+    }, "Seven (7)"), h("option", {
+      value: "4"
+    }, "Cherry")), h("select", {
+      ref: function ref(dom) {
+        return setRef(dom, reel, 'pos');
+      }
+    }, h("option", {
+      value: "0"
+    }, "TOP"), h("option", {
+      value: "1"
+    }, "CENTER"), h("option", {
+      value: "2"
+    }, "BOTTOM")));
+  }), h("hr", null), h("button", {
+    onClick: function onClick() {
+      return spin();
+    },
+    style: {
+      padding: 16
+    }
+  }, "SPIN WITH DEBUG VALUES"));
+}
+
+exports.default = default_1;
+},{"preact":"node_modules/preact/dist/preact.module.js","./Mocks/spinRequest":"src/Mocks/spinRequest.ts","./Store":"src/Store/index.ts","./Store/slot":"src/Store/slot.ts","./Store/paytable":"src/Store/paytable.ts","./Store/wallet":"src/Store/wallet.ts","./Store/global":"src/Store/global.ts"}],"src/Styles/App.style.ts":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -7119,6 +7313,12 @@ var style = jss_1.default.createStyleSheet({
   container: {
     width: 860,
     display: 'flex'
+  },
+  disabled: {
+    pointerEvents: 'none',
+    '& button, & input, &select': {
+      opacity: .5
+    }
   }
 });
 style.attach();
@@ -7416,6 +7616,8 @@ var Slot_1 = __importDefault(require("./Slot"));
 
 var Paytable_1 = __importDefault(require("./Paytable"));
 
+var Debug_1 = __importDefault(require("./Debug"));
+
 var App_style_1 = __importDefault(require("./Styles/App.style"));
 
 var global_1 = require("./Store/global");
@@ -7427,9 +7629,6 @@ var getAssets_1 = __importDefault(require("./Mocks/getAssets"));
 var unsubscribe = function unsubscribe() {};
 
 var App = function App() {
-  var dispatch = Store_1.default.dispatch;
-  var state = Store_1.default.getState();
-
   var _a = hooks_1.useState(0),
       _b = _a[0],
       time = _b === void 0 ? new Date().getTime() : _b,
@@ -7439,6 +7638,7 @@ var App = function App() {
   unsubscribe = Store_1.default.subscribe(function () {
     setTime(new Date().getTime());
   });
+  var state = Store_1.default.getState();
 
   if (!state.global.ready || !state.global.ready) {
     getAssets_1.default().then(function (assets) {
@@ -7450,19 +7650,22 @@ var App = function App() {
     return h("div", null, "Loading...");
   }
 
-  var classes = App_style_1.default.classes; //console.log(time)
+  var classes = App_style_1.default.classes;
+  var locked = state.global.locked; //console.log(time)
 
   return (//@ts-ignore
     h(context_1.default.Provider, {
       value: state
     }, h("div", {
-      className: classes.container
-    }, h("div", null, h(Slot_1.default, null)), h("div", null, h(Paytable_1.default, null), h(Wallet_1.default, null))), h("hr", null))
+      className: classes.container + (" " + (locked ? classes.disabled : ''))
+    }, h("div", null, h(Slot_1.default, null)), h("div", null, h(Paytable_1.default, null), h(Wallet_1.default, null))), h("div", {
+      className: "" + (locked ? classes.disabled : '')
+    }, h("hr", null), h(Debug_1.default, null)))
   );
 };
 
 PReact.render(h(App, null), document.getElementById('root'));
-},{"jss":"node_modules/jss/dist/jss.esm.js","jss-preset-default":"node_modules/jss-preset-default/dist/jss-preset-default.esm.js","preact":"node_modules/preact/dist/preact.module.js","./Store":"src/Store/index.ts","./Store/context":"src/Store/context.ts","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Wallet":"src/Wallet.tsx","./Slot":"src/Slot.tsx","./Paytable":"src/Paytable.tsx","./Styles/App.style":"src/Styles/App.style.ts","./Store/global":"src/Store/global.ts","./Store/slot":"src/Store/slot.ts","./Mocks/getAssets":"src/Mocks/getAssets.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"jss":"node_modules/jss/dist/jss.esm.js","jss-preset-default":"node_modules/jss-preset-default/dist/jss-preset-default.esm.js","preact":"node_modules/preact/dist/preact.module.js","./Store":"src/Store/index.ts","./Store/context":"src/Store/context.ts","preact/hooks":"node_modules/preact/hooks/dist/hooks.module.js","./Wallet":"src/Wallet.tsx","./Slot":"src/Slot.tsx","./Paytable":"src/Paytable.tsx","./Debug":"src/Debug.tsx","./Styles/App.style":"src/Styles/App.style.ts","./Store/global":"src/Store/global.ts","./Store/slot":"src/Store/slot.ts","./Mocks/getAssets":"src/Mocks/getAssets.ts"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

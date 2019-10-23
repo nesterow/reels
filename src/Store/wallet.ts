@@ -1,5 +1,5 @@
 export const State = {
-    balance: 50000
+    balance: 5000
 }
 
 export enum ActionType {
@@ -35,10 +35,10 @@ export const Actions = {
 export default function (state: any = State, action: any){
     switch(action.type) {
         case ActionType.INCREMENT:
-            state.balance += (action.payload || 1)
+            state.balance += action.payload
             return state
         case ActionType.DECREMENT:
-            state.balance -= (action.payload || 1)
+            state.balance -= action.payload
             return state
         case ActionType.UPDATE:
             Object.keys(action.payload || {}).map((key) => {

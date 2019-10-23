@@ -12,6 +12,8 @@ import { useState } from 'preact/hooks'
 import Wallet from './Wallet'
 import Slot from './Slot'
 import Paytable from './Paytable'
+import Debug from './Debug'
+
 import stylesheet from './Styles/App.style'
 
 import {Actions as GlobalActions} from './Store/global'
@@ -23,16 +25,13 @@ let unsubscribe = () => {}
 
 const App = () => {
     
-
-    const {dispatch} = Store
-    const state = Store.getState()
-    
     const [time = new Date().getTime(), setTime] = useState(0)
-
     unsubscribe()
     unsubscribe = Store.subscribe(() => {
         setTime(new Date().getTime())
     })
+
+    const state = Store.getState()
  
     if (!state.global.ready || !state.global.ready) {
         getAssets().then((assets: any) => {
@@ -47,12 +46,12 @@ const App = () => {
     }
     
     const {classes} = stylesheet
- 
+    const {locked} = state.global
     //console.log(time)
     return (
         //@ts-ignore
         <Context.Provider value={state}>
-            <div className={classes.container}>
+            <div className={classes.container + ` ${locked ? classes.disabled : ''}`}>
                 <div>
                     <Slot></Slot>
                 </div>
@@ -61,7 +60,10 @@ const App = () => {
                     <Wallet></Wallet>
                 </div> 
             </div>
-            <hr></hr>
+            <div className={`${locked ? classes.disabled : ''}`}>
+                <hr></hr>
+                <Debug></Debug>
+            </div>
         </Context.Provider>
     )
 };
