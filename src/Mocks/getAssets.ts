@@ -17,11 +17,11 @@ const getAsset = (url: string) => fetchAsBlob(url).then(convertBlobToBase64)
 
 
 const assets = [
-    '/assets/3xBAR.png',
-    '/assets/BAR.png',
-    '/assets/2xBAR.png',
-    '/assets/7.png',
-    '/assets/Cherry.png',
+    './assets/3xBAR.png',
+    './assets/BAR.png',
+    './assets/2xBAR.png',
+    './assets/7.png',
+    './assets/Cherry.png',
 ]
 
 export default async () => {

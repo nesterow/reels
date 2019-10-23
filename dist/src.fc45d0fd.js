@@ -7516,7 +7516,7 @@ var getAsset = function getAsset(url) {
   return fetchAsBlob(url).then(convertBlobToBase64);
 };
 
-var assets = ['/assets/3xBAR.png', '/assets/BAR.png', '/assets/2xBAR.png', '/assets/7.png', '/assets/Cherry.png'];
+var assets = ['./assets/3xBAR.png', './assets/BAR.png', './assets/2xBAR.png', './assets/7.png', './assets/Cherry.png'];
 
 exports.default = function () {
   return __awaiter(void 0, void 0, void 0, function () {
