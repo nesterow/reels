@@ -1,6 +1,8 @@
 ## Slot Machine
 Simple slot machine simulation written with [preact](https://preactjs.com/)
 
+[Preview](https://nesterow.github.io/reels/dist/index.html)
+
 ## Foreword
 For this task I wanted to try new technologies (new for me). I picked following stack:  
 1. [preact](https://preactjs.com/) - js library
